@@ -1,40 +1,141 @@
-.game-board {
-    max-width: 300px;
-    margin: 0 auto;
-    border: 2px solid #333;
-    border-radius: 5px;
+:root {
+    --bg-color: #ffffff;
+    --text-color: #2d3436;
+    --board-bg: rgba(255, 255, 255, 0.65);
+    --cell-bg: rgba(255, 255, 255, 0.8);
+    --cell-hover: rgba(255, 255, 255, 1);
+    --x-color: #0984e3;
+    --o-color: #e84393;
+    --win-color: #00b894;
+    --win-glow: #55efc4;
+    --font-main: 'Outfit', sans-serif;
+    --font-graffiti: 'Permanent Marker', cursive;
 }
 
-.cell {
-    height: 100px;
-    border: 1px solid #333;
+body {
+    background-color: #ffffff;
+    font-family: var(--font-main);
+    color: var(--text-color);
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
+}
+
+/* Glassmorphism Container for the whole game area */
+.container {
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(200, 200, 200, 0.3);
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+h1 {
+    font-weight: 800;
+    color: #2d3436;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: -1px;
+}
+
+#status {
+    color: #636e72;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 2rem auto;
+    padding: 10px;
+    background: transparent;
+    border-radius: 16px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    font-weight: 800;
     cursor: pointer;
-    background-color: #fff;
-    transition: background-color 0.3s;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin: 0 5px;
+    color: #333;
 }
 
 .cell:hover {
-    background-color: #f8f9fa;
+    transform: translateY(-3px);
+    background: #ffffff;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Player Colors */
 .cell.x {
-    color: #dc3545;
+    color: var(--x-color);
+    text-shadow: 0 0 15px rgba(9, 132, 227, 0.4);
 }
 
 .cell.o {
-    color: #0d6efd;
+    color: var(--o-color);
+    text-shadow: 0 0 15px rgba(232, 67, 147, 0.4);
 }
 
+/* Winning State - Graffiti Effect */
 .cell.winning {
-    background-color: #28a745;
-    color: white;
+    background-color: var(--win-color) !important;
+    color: #fff !important;
+    font-family: var(--font-graffiti);
+    transform: scale(1.1) rotate(-3deg);
+    z-index: 10;
+    box-shadow: 0 0 20px var(--win-glow);
+    border: 2px solid #fff;
+    animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.cell.winning:nth-child(even) {
+    transform: scale(1.1) rotate(2deg);
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 #restartButton {
-    padding: 10px 20px;
-    font-size: 1.2rem;
+    background: linear-gradient(135deg, #00b894, #55efc4);
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#restartButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 184, 148, 0.6);
+}
+
+#restartButton:active {
+    transform: translateY(1px);
 }
