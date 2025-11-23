@@ -41,6 +41,66 @@ h1 {
     letter-spacing: -1px;
 }
 
+/* Scoreboard */
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(9, 132, 227, 0.1), rgba(232, 67, 147, 0.1));
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(200, 200, 200, 0.3);
+}
+
+.score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.player-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #636e72;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2d3436;
+    background: linear-gradient(135deg, #00b894, #55efc4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.score-item:first-child .score-value {
+    background: linear-gradient(135deg, #0984e3, #74b9ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.score-item:last-child .score-value {
+    background: linear-gradient(135deg, #e84393, #fd79a8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.score-divider {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #b2bec3;
+    padding: 0 10px;
+}
+
 #status {
     color: #636e72;
     font-weight: 600;
@@ -170,4 +230,113 @@ h1 {
 
 .button-group button:active {
     transform: translateY(1px);
+}
+
+/* Graffiti Celebration Overlay */
+.graffiti-celebration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.graffiti-celebration.show {
+    opacity: 1;
+}
+
+.graffiti-text {
+    font-family: var(--font-graffiti);
+    font-size: 6rem;
+    color: #fff;
+    text-shadow:
+        0 0 10px #00b894,
+        0 0 20px #00b894,
+        0 0 30px #00b894,
+        0 0 40px #55efc4,
+        0 0 70px #55efc4,
+        0 0 80px #55efc4,
+        0 0 100px #55efc4,
+        5px 5px 0px #e84393,
+        10px 10px 0px #0984e3;
+    animation: graffitiPulse 1.5s ease-in-out infinite, graffitiShake 0.5s ease-in-out infinite;
+    transform: rotate(-5deg);
+    letter-spacing: 8px;
+    z-index: 1001;
+}
+
+@keyframes graffitiPulse {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(-5deg);
+    }
+
+    50% {
+        transform: scale(1.1) rotate(-3deg);
+    }
+}
+
+@keyframes graffitiShake {
+
+    0%,
+    100% {
+        transform: translateX(0) rotate(-5deg);
+    }
+
+    25% {
+        transform: translateX(-5px) rotate(-6deg);
+    }
+
+    75% {
+        transform: translateX(5px) rotate(-4deg);
+    }
+}
+
+/* Confetti Animation */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    opacity: 0.8;
+    animation: confettiFall 3s linear infinite;
+    border-radius: 2px;
+}
+
+@keyframes confettiFall {
+    0% {
+        top: -10%;
+        transform: translateX(0) rotateZ(0deg);
+    }
+
+    100% {
+        top: 110%;
+        transform: translateX(100px) rotateZ(360deg);
+    }
+}
+
+.confetti:nth-child(2n) {
+    animation-duration: 2.5s;
+}
+
+.confetti:nth-child(3n) {
+    animation-duration: 3.5s;
+}
+
+.confetti:nth-child(4n) {
+    animation-duration: 4s;
+}
+
+.confetti:nth-child(5n) {
+    width: 15px;
+    height: 15px;
 }

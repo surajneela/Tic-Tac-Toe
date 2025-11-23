@@ -3,11 +3,15 @@ class TicTacToe {
         this.board = Array(9).fill("");
         this.currentPlayer = "X";
         this.gameActive = true;
+        this.scoreX = 0;
+        this.scoreO = 0;
         this.statusDisplay = document.getElementById("status");
         this.cells = document.querySelectorAll("[data-cell]");
         this.restartButton = document.getElementById("restartButton");
         this.replayButton = document.getElementById("replayButton");
         this.exitButton = document.getElementById("exitButton");
+        this.scoreXDisplay = document.getElementById("scoreX");
+        this.scoreODisplay = document.getElementById("scoreO");
         this.winningConditions = [
             [0, 1, 2],
             [3, 4, 5],
@@ -66,6 +70,8 @@ class TicTacToe {
         if (roundWon) {
             this.statusDisplay.textContent = `Player ${this.currentPlayer} has won!`;
             this.gameActive = false;
+            this.updateScore();
+            this.showGraffitiCelebration();
             return;
         }
 
@@ -93,11 +99,15 @@ class TicTacToe {
         this.board = Array(9).fill("");
         this.currentPlayer = "X";
         this.gameActive = true;
+        this.scoreX = 0;
+        this.scoreO = 0;
+        this.updateScoreDisplay();
         this.statusDisplay.textContent = `Player ${this.currentPlayer}'s turn`;
         this.cells.forEach((cell) => {
             cell.textContent = "";
             cell.classList.remove("x", "o", "winning");
         });
+        this.removeGraffitiCelebration();
     }
 
     replayGame() {
@@ -108,12 +118,72 @@ class TicTacToe {
     exitGame() {
         // Clear the board and show exit message
         this.gameActive = false;
+        this.scoreX = 0;
+        this.scoreO = 0;
+        this.updateScoreDisplay();
         this.statusDisplay.textContent = "Thanks for playing!";
         this.cells.forEach((cell) => {
             cell.textContent = "";
             cell.classList.remove("x", "o", "winning");
         });
         this.board = Array(9).fill("");
+        this.removeGraffitiCelebration();
+    }
+
+    showGraffitiCelebration() {
+        // Create graffiti overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'graffiti-overlay';
+        overlay.className = 'graffiti-celebration';
+
+        // Create winner text with graffiti style
+        const winnerText = document.createElement('div');
+        winnerText.className = 'graffiti-text';
+        winnerText.textContent = `${this.currentPlayer} WINS!`;
+
+        overlay.appendChild(winnerText);
+        document.body.appendChild(overlay);
+
+        // Add confetti effect
+        this.createConfetti(overlay);
+
+        // Trigger animation
+        setTimeout(() => {
+            overlay.classList.add('show');
+        }, 10);
+    }
+
+    removeGraffitiCelebration() {
+        const overlay = document.getElementById('graffiti-overlay');
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+
+    createConfetti(container) {
+        const colors = ['#00b894', '#0984e3', '#e84393', '#fdcb6e', '#ff7675', '#74b9ff'];
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.animationDelay = Math.random() * 3 + 's';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            container.appendChild(confetti);
+        }
+    }
+
+    updateScore() {
+        if (this.currentPlayer === "X") {
+            this.scoreX++;
+        } else {
+            this.scoreO++;
+        }
+        this.updateScoreDisplay();
+    }
+
+    updateScoreDisplay() {
+        this.scoreXDisplay.textContent = this.scoreX;
+        this.scoreODisplay.textContent = this.scoreO;
     }
 }
 
