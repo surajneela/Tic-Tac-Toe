@@ -296,6 +296,7 @@ class TicTacToe {
         const overlay = document.createElement('div');
         overlay.id = 'tournament-results';
         overlay.className = 'graffiti-celebration show';
+        overlay.style.pointerEvents = 'auto'; // Enable clicks on the overlay
 
         const resultsText = document.createElement('div');
         resultsText.className = 'graffiti-text';
