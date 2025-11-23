@@ -2,16 +2,22 @@ class TicTacToe {
     constructor() {
         this.board = Array(9).fill("");
         this.currentPlayer = "X";
-        this.gameActive = true;
+        this.gameActive = false;
         this.scoreX = 0;
         this.scoreO = 0;
+        this.totalGames = 3;
+        this.currentGame = 0;
         this.statusDisplay = document.getElementById("status");
         this.cells = document.querySelectorAll("[data-cell]");
         this.restartButton = document.getElementById("restartButton");
-        this.replayButton = document.getElementById("replayButton");
+        this.nextGameButton = document.getElementById("nextGameButton");
         this.exitButton = document.getElementById("exitButton");
         this.scoreXDisplay = document.getElementById("scoreX");
         this.scoreODisplay = document.getElementById("scoreO");
+        this.gameProgressDisplay = document.getElementById("gameProgress");
+        this.setupModal = document.getElementById("setupModal");
+        this.startGameButton = document.getElementById("startGameButton");
+        this.numGamesInput = document.getElementById("numGames");
         this.winningConditions = [
             [0, 1, 2],
             [3, 4, 5],
@@ -31,8 +37,31 @@ class TicTacToe {
             cell.addEventListener("click", () => this.handleCellClick(cell));
         });
         this.restartButton.addEventListener("click", () => this.restartGame());
-        this.replayButton.addEventListener("click", () => this.replayGame());
+        this.nextGameButton.addEventListener("click", () => this.nextGame());
         this.exitButton.addEventListener("click", () => this.exitGame());
+        this.startGameButton.addEventListener("click", () => this.startTournament());
+        this.showSetupModal();
+        this.updateStatus();
+    }
+
+    showSetupModal() {
+        this.setupModal.style.display = 'flex';
+    }
+
+    hideSetupModal() {
+        this.setupModal.style.display = 'none';
+    }
+
+    startTournament() {
+        this.totalGames = parseInt(this.numGamesInput.value) || 3;
+        this.currentGame = 1;
+        this.scoreX = 0;
+        this.scoreO = 0;
+        this.gameActive = true;
+        this.nextGameButton.style.display = 'none';
+        this.updateScoreDisplay();
+        this.updateGameProgress();
+        this.hideSetupModal();
         this.updateStatus();
     }
 
@@ -71,13 +100,24 @@ class TicTacToe {
             this.statusDisplay.textContent = `Player ${this.currentPlayer} has won!`;
             this.gameActive = false;
             this.updateScore();
-            this.showGraffitiCelebration();
+
+            // Check if player has won more than 50% of games
+            const gamesNeededToWin = Math.ceil(this.totalGames / 2);
+            const currentPlayerScore = this.currentPlayer === "X" ? this.scoreX : this.scoreO;
+
+            if (currentPlayerScore >= gamesNeededToWin) {
+                // Player has secured tournament victory
+                this.showGraffitiCelebration();
+            }
+
+            this.showNextGameButton();
             return;
         }
 
         if (!this.board.includes("")) {
             this.statusDisplay.textContent = "Game ended in a draw!";
             this.gameActive = false;
+            this.showNextGameButton();
             return;
         }
 
@@ -98,9 +138,11 @@ class TicTacToe {
     restartGame() {
         this.board = Array(9).fill("");
         this.currentPlayer = "X";
-        this.gameActive = true;
+        this.gameActive = false;
         this.scoreX = 0;
         this.scoreO = 0;
+        this.currentGame = 0;
+        this.nextGameButton.style.display = 'none';
         this.updateScoreDisplay();
         this.statusDisplay.textContent = `Player ${this.currentPlayer}'s turn`;
         this.cells.forEach((cell) => {
@@ -108,11 +150,51 @@ class TicTacToe {
             cell.classList.remove("x", "o", "winning");
         });
         this.removeGraffitiCelebration();
+        const tournamentResults = document.getElementById('tournament-results');
+        if (tournamentResults) {
+            tournamentResults.remove();
+        }
+        this.showSetupModal();
     }
 
-    replayGame() {
-        // Replay is the same as restart for this game
-        this.restartGame();
+    nextGame() {
+        // Move to next game in tournament
+        if (this.currentGame < this.totalGames) {
+            this.currentGame++;
+            this.board = Array(9).fill("");
+            this.currentPlayer = "X";
+            this.gameActive = true;
+            this.nextGameButton.style.display = 'none';
+            this.statusDisplay.textContent = `Player ${this.currentPlayer}'s turn`;
+            this.cells.forEach((cell) => {
+                cell.textContent = "";
+                cell.classList.remove("x", "o", "winning");
+            });
+            this.removeGraffitiCelebration();
+            this.updateGameProgress();
+        } else {
+            this.showTournamentResults();
+        }
+    }
+
+    showNextGameButton() {
+        const gamesNeededToWin = Math.ceil(this.totalGames / 2);
+
+        // Check if someone has already won the tournament
+        if (this.scoreX >= gamesNeededToWin || this.scoreO >= gamesNeededToWin) {
+            // Tournament is over, show results after delay
+            setTimeout(() => {
+                this.showTournamentResults();
+            }, 3000);
+        } else if (this.currentGame < this.totalGames) {
+            // More games to play
+            this.nextGameButton.style.display = 'inline-block';
+        } else {
+            // All games played, show tournament results
+            setTimeout(() => {
+                this.showTournamentResults();
+            }, 3000);
+        }
     }
 
     exitGame() {
@@ -120,6 +202,8 @@ class TicTacToe {
         this.gameActive = false;
         this.scoreX = 0;
         this.scoreO = 0;
+        this.currentGame = 0;
+        this.nextGameButton.style.display = 'none';
         this.updateScoreDisplay();
         this.statusDisplay.textContent = "Thanks for playing!";
         this.cells.forEach((cell) => {
@@ -128,6 +212,7 @@ class TicTacToe {
         });
         this.board = Array(9).fill("");
         this.removeGraffitiCelebration();
+        this.showSetupModal();
     }
 
     showGraffitiCelebration() {
@@ -151,6 +236,14 @@ class TicTacToe {
         setTimeout(() => {
             overlay.classList.add('show');
         }, 10);
+
+        // Auto-dismiss after 3 seconds
+        setTimeout(() => {
+            overlay.classList.remove('show');
+            setTimeout(() => {
+                overlay.remove();
+            }, 500); // Wait for fade-out animation
+        }, 3000);
     }
 
     removeGraffitiCelebration() {
@@ -184,6 +277,51 @@ class TicTacToe {
     updateScoreDisplay() {
         this.scoreXDisplay.textContent = this.scoreX;
         this.scoreODisplay.textContent = this.scoreO;
+    }
+
+    updateGameProgress() {
+        this.gameProgressDisplay.textContent = `Game ${this.currentGame} of ${this.totalGames}`;
+    }
+
+    checkTournamentEnd() {
+        if (this.currentGame >= this.totalGames) {
+            setTimeout(() => {
+                this.showTournamentResults();
+            }, 3000);
+        }
+    }
+
+    showTournamentResults() {
+        this.removeGraffitiCelebration();
+        const overlay = document.createElement('div');
+        overlay.id = 'tournament-results';
+        overlay.className = 'graffiti-celebration show';
+
+        const resultsText = document.createElement('div');
+        resultsText.className = 'graffiti-text';
+
+        if (this.scoreX > this.scoreO) {
+            resultsText.textContent = `🏆 PLAYER X WINS! 🏆`;
+        } else if (this.scoreO > this.scoreX) {
+            resultsText.textContent = `🏆 PLAYER O WINS! 🏆`;
+        } else {
+            resultsText.textContent = `🤝 IT'S A TIE! 🤝`;
+        }
+
+        const scoreText = document.createElement('div');
+        scoreText.className = 'tournament-score';
+        scoreText.textContent = `Final Score: X ${this.scoreX} - ${this.scoreO} O`;
+
+        const restartPrompt = document.createElement('div');
+        restartPrompt.className = 'tournament-prompt';
+        restartPrompt.textContent = 'Click Restart to play again!';
+
+        overlay.appendChild(resultsText);
+        overlay.appendChild(scoreText);
+        overlay.appendChild(restartPrompt);
+        document.body.appendChild(overlay);
+
+        this.createConfetti(overlay);
     }
 }
 

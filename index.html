@@ -15,8 +15,24 @@
 </head>
 
 <body>
+  <!-- Game Setup Modal -->
+  <div id="setupModal" class="setup-modal">
+    <div class="setup-content">
+      <h2 class="setup-title">🎮 Game Setup</h2>
+      <p class="setup-subtitle">How many games would you like to play?</p>
+      <div class="setup-input-group">
+        <label for="numGames" class="setup-label">Number of Games:</label>
+        <input type="number" id="numGames" class="setup-input" min="1" max="99" value="3">
+      </div>
+      <button id="startGameButton" class="setup-button">Start Playing!</button>
+    </div>
+  </div>
+
   <div class="container mt-5">
     <h1 class="text-center mb-4">Tic-Tac-Toe</h1>
+    <div class="game-progress">
+      <span id="gameProgress">Game 1 of 3</span>
+    </div>
     <div class="scoreboard">
       <div class="score-item">
         <div class="player-label">Player X</div>
@@ -43,8 +59,8 @@
       <div class="cell" data-cell></div>
     </div>
     <div class="text-center mt-4 button-group">
-      <button id="restartButton" class="btn btn-success">Restart</button>
-      <button id="replayButton" class="btn btn-info">Replay</button>
+      <button id="nextGameButton" class="btn btn-primary" style="display: none;">Next Game</button>
+      <button id="restartButton" class="btn btn-success">Restart Tournament</button>
       <button id="exitButton" class="btn btn-danger">Exit</button>
     </div>
   </div>
