@@ -40,6 +40,14 @@ class TicTacToe {
         this.nextGameButton.addEventListener("click", () => this.nextGame());
         this.exitButton.addEventListener("click", () => this.exitGame());
         this.startGameButton.addEventListener("click", () => this.startTournament());
+
+        // Allow Enter key to start tournament
+        this.numGamesInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                this.startTournament();
+            }
+        });
+
         this.showSetupModal();
         this.updateStatus();
     }
