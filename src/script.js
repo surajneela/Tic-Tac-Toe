@@ -312,13 +312,17 @@ class TicTacToe {
         scoreText.className = 'tournament-score';
         scoreText.textContent = `Final Score: X ${this.scoreX} - ${this.scoreO} O`;
 
-        const restartPrompt = document.createElement('div');
-        restartPrompt.className = 'tournament-prompt';
-        restartPrompt.textContent = 'Click Restart to play again!';
+        const restartButton = document.createElement('button');
+        restartButton.className = 'tournament-restart-button';
+        restartButton.textContent = 'Play Again!';
+        restartButton.onclick = () => {
+            overlay.remove();
+            this.restartGame();
+        };
 
         overlay.appendChild(resultsText);
         overlay.appendChild(scoreText);
-        overlay.appendChild(restartPrompt);
+        overlay.appendChild(restartButton);
         document.body.appendChild(overlay);
 
         this.createConfetti(overlay);
