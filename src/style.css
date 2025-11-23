@@ -119,16 +119,28 @@ h1 {
     }
 }
 
-#restartButton {
-    background: linear-gradient(135deg, #00b894, #55efc4);
+/* Button Group */
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.button-group button {
     border: none;
     padding: 12px 30px;
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 0.5px;
     border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
     transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+#restartButton {
+    background: linear-gradient(135deg, #00b894, #55efc4);
+    box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
 }
 
 #restartButton:hover {
@@ -136,6 +148,26 @@ h1 {
     box-shadow: 0 6px 20px rgba(0, 184, 148, 0.6);
 }
 
-#restartButton:active {
+#replayButton {
+    background: linear-gradient(135deg, #0984e3, #74b9ff);
+    box-shadow: 0 4px 15px rgba(9, 132, 227, 0.4);
+}
+
+#replayButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(9, 132, 227, 0.6);
+}
+
+#exitButton {
+    background: linear-gradient(135deg, #d63031, #ff7675);
+    box-shadow: 0 4px 15px rgba(214, 48, 49, 0.4);
+}
+
+#exitButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(214, 48, 49, 0.6);
+}
+
+.button-group button:active {
     transform: translateY(1px);
 }

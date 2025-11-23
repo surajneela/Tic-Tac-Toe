@@ -6,6 +6,8 @@ class TicTacToe {
         this.statusDisplay = document.getElementById("status");
         this.cells = document.querySelectorAll("[data-cell]");
         this.restartButton = document.getElementById("restartButton");
+        this.replayButton = document.getElementById("replayButton");
+        this.exitButton = document.getElementById("exitButton");
         this.winningConditions = [
             [0, 1, 2],
             [3, 4, 5],
@@ -25,6 +27,8 @@ class TicTacToe {
             cell.addEventListener("click", () => this.handleCellClick(cell));
         });
         this.restartButton.addEventListener("click", () => this.restartGame());
+        this.replayButton.addEventListener("click", () => this.replayGame());
+        this.exitButton.addEventListener("click", () => this.exitGame());
         this.updateStatus();
     }
 
@@ -94,6 +98,22 @@ class TicTacToe {
             cell.textContent = "";
             cell.classList.remove("x", "o", "winning");
         });
+    }
+
+    replayGame() {
+        // Replay is the same as restart for this game
+        this.restartGame();
+    }
+
+    exitGame() {
+        // Clear the board and show exit message
+        this.gameActive = false;
+        this.statusDisplay.textContent = "Thanks for playing!";
+        this.cells.forEach((cell) => {
+            cell.textContent = "";
+            cell.classList.remove("x", "o", "winning");
+        });
+        this.board = Array(9).fill("");
     }
 }
 
