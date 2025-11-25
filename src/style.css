@@ -1,6 +1,6 @@
 :root {
-    --bg-color: #ffffff;
-    --text-color: #2d3436;
+    --bg-color: #000000;
+    --text-color: #ffffff;
     --board-bg: rgba(255, 255, 255, 0.65);
     --cell-bg: rgba(255, 255, 255, 0.8);
     --cell-hover: rgba(255, 255, 255, 1);
@@ -13,7 +13,7 @@
 }
 
 body {
-    background-color: #ffffff;
+    background-color: #000000;
     font-family: var(--font-main);
     color: var(--text-color);
     min-height: 100vh;
@@ -36,7 +36,7 @@ body {
 
 h1 {
     font-weight: 800;
-    color: #2d3436;
+    color: #ffffff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     letter-spacing: -1px;
 }
@@ -189,7 +189,7 @@ h1 {
 .player-label {
     font-size: 0.9rem;
     font-weight: 600;
-    color: #636e72;
+    color: #b2bec3;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -226,7 +226,7 @@ h1 {
 }
 
 #status {
-    color: #636e72;
+    color: #b2bec3;
     font-weight: 600;
     font-size: 1.5rem;
 }
@@ -306,14 +306,14 @@ h1 {
 /* Button Group */
 .button-group {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .button-group button {
     border: none;
-    padding: 12px 30px;
+    padding: 12px 15px;
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 0.5px;
