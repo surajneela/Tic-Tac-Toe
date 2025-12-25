@@ -109,6 +109,9 @@ class TicTacToe {
             this.gameActive = false;
             this.updateScore();
 
+            // Trigger confetti celebration
+            launchConfetti();
+
             // Check if player has won more than 50% of games
             const gamesNeededToWin = Math.ceil(this.totalGames / 2);
             const currentPlayerScore = this.currentPlayer === "X" ? this.scoreX : this.scoreO;
@@ -238,7 +241,7 @@ class TicTacToe {
         document.body.appendChild(overlay);
 
         // Add confetti effect
-        this.createConfetti(overlay);
+        launchConfetti();
 
         // Trigger animation
         setTimeout(() => {
@@ -334,7 +337,7 @@ class TicTacToe {
         overlay.appendChild(restartButton);
         document.body.appendChild(overlay);
 
-        this.createConfetti(overlay);
+        launchConfetti();
     }
 }
 
